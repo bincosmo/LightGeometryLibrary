@@ -1,8 +1,10 @@
 ﻿namespace GeometryLibrary.Light;
 
 public class Figure
-{   public string? figureType;
+{   
+    public string? figureType;
     public List<double>Side = new List<double>();
+    public bool RightTriangle;
     private double area;
     public double areaResult
     {
@@ -18,16 +20,20 @@ public class Figure
         switch(figure)
         {
             case 1: 
+              figureType = "Circle";
               Circle circle = new Circle();
               areaResult = circle.Area();
               break;
             case 2: 
+              figureType = "Rectangle";
               Rectangle rectangle = new Rectangle();
               areaResult = rectangle.Area();
               break;
             case 3: 
+              figureType = "Triangle";
               Triangle triangle = new Triangle();
-              areaResult = triangle.Area();              
+              areaResult = triangle.Area();  
+              RightTriangle = triangle.IsRightAngled();            
               break;
         }
     }
@@ -47,8 +53,8 @@ public class Figure
                 break;
             case 3:
                 figureType = "Triangle";
-                Triangle triangle = new Triangle();
-                areaResult = triangle.Area(Side[0], Side[1], Side[2]);           
+                Triangle triangle = new Triangle(Side[0], Side[1], Side[2]);
+                areaResult = triangle.Area();           
                 break;
             default:
                 Console.WriteLine("Error input");
@@ -65,10 +71,6 @@ public class Circle
 {        
     public Circle()
     {
-    }
-     public Circle(double radius)
-    {
-        Console.WriteLine(Area(radius));
     }
 
     public double Area ()
@@ -90,10 +92,6 @@ public class Rectangle
     public Rectangle ()
     {       
     }
-    public Rectangle (double length, double width)
-    {
-        Area(length, width);
-    }
     public double Area()
     {
         Console.WriteLine("Enter length:");
@@ -111,29 +109,67 @@ public class Rectangle
 //Triangle
 public class Triangle
 {
+    public double SideA { get; set; }
+    public double SideB { get; set; }
+    public double SideC { get; set; }
     public Triangle()
     {
+        AddTriangle();
     }
-    public Triangle (double sideA, double sideB, double sideC)
+    public Triangle (double sideA, double sideB, double sideC) 
     {
-        Area(sideA, sideB, sideC);
+        SideA = sideA;
+        SideB = sideB;
+        SideC = sideC;
     }
-    
-    public double Area()
-    { 
+  
+    public void AddTriangle()
+    {
         Console.WriteLine("Enter Side A:");
-        double sideA = Convert.ToDouble(Console.ReadLine()); 
+        SideA = Convert.ToDouble(Console.ReadLine()); 
         Console.WriteLine("Enter Side B:");
-        double sideB = Convert.ToDouble(Console.ReadLine());
+        SideB = Convert.ToDouble(Console.ReadLine());
         Console.WriteLine("Enter Side C:");
-        double sideC = Convert.ToDouble(Console.ReadLine());
-        double s = (sideA + sideB + sideC)/2; //semiperimeter
-            return Math.Sqrt(s * (s - sideA)*(s - sideB)*(s -sideC));
+        SideC = Convert.ToDouble(Console.ReadLine());
     }
-    //Heron's formula is used to calculate the area 
-    public double Area (double sideA, double sideB, double sideC)
+    public double Area(double sideA, double sideB, double sideC)
     { 
-        double s = (sideA + sideB + sideC)/2; //semiperimeter
-            return Math.Sqrt(s * (s - sideA)*(s - sideB)*(s -sideC));
+        while(SideA + SideB <= SideC || SideA + SideC <= SideB)
+        {
+            Console.WriteLine("Incorrect input");
+            AddTriangle();
+        }           
+        double s = (sideA + sideB + sideC)/2;
+            return Math.Sqrt(s * (s - SideA)*(s - SideB)*(s - SideC));
     }
+      public double Area()
+    { 
+            return Area(SideA,SideB,SideC);
+    }
+    public bool IsRightAngled(){
+        double hypotenuse, leg1, leg2;
+        if(SideA > SideB && SideA > SideC)
+        {
+            hypotenuse = SideA;
+            leg1 = SideB;
+            leg2 = SideC;
+        }  else if (SideB > SideA && SideB > SideC)
+                {
+                    hypotenuse = SideB;
+                    leg1 = SideA;
+                    leg2 = SideC;
+                } else if (SideC > SideA && SideC > SideB)
+                        {
+                            hypotenuse = SideC;
+                            leg1 = SideA;
+                            leg2 = SideB;
+                        }
+                            else 
+                                return false;
+        if(hypotenuse == Math.Sqrt((Math.Pow(leg1, 2) + Math.Pow(leg2, 2))))
+            return true;
+            else 
+                return false;
+    }
+
 }

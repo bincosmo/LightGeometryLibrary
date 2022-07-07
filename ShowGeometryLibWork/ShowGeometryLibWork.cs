@@ -22,7 +22,7 @@ class ShowGeometryLibWork
                 double sideValue = default;
                 Figure autofigure = new Figure();
                 while (sideValue >= 0){
-                Console.WriteLine($"Enter the size of the {autofigure.Side.Count} Side:");
+                Console.WriteLine($"Enter the size of the {autofigure.Side.Count + 1} Side:");
                 Console.WriteLine($"Enter a negative number for finish input");
                 sideValue = Convert.ToDouble(Console.ReadLine());
                 if (sideValue >= 0)
@@ -38,6 +38,8 @@ class ShowGeometryLibWork
                         Figure figure = new Figure(figureType);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"\nFigure area:{figure.areaResult}");
+                        if(figure.figureType == "Triangle")
+                            Console.WriteLine($"Rightangle triangle:{figure.RightTriangle}");
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Press Enter to continue...");
                         Console.ReadLine();

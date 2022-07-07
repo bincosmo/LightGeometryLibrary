@@ -17,7 +17,7 @@ public class TestLightGeometryLib
 
         Assert.AreEqual(expected, result);
     }
-    [TestMethod]
+     [TestMethod]
     public void TestCircleArea()
     {
         var circle = new Circle();
@@ -31,15 +31,29 @@ public class TestLightGeometryLib
     [TestMethod]
     public void TestTriangleArea()
     {
-        var triangle = new Triangle();
+        
+        double arg1 = 5;
+        double arg2 = 12;
+        double arg3 = 13;
+        double expected = 30;
+        
+        var triangle = new Triangle(arg1,arg2,arg3);      
+        double result = triangle.Area();
+        
+        Assert.AreEqual(expected, result);      
+    }
+  [TestMethod]
+    public void TestRightAngledTriangleSearch()
+    {        
         double arg1 = 3;
         double arg2 = 4;
         double arg3 = 5;
-        double expected = 6;
 
-        double result = triangle.Area(arg1, arg2, arg3);
-        Assert.AreEqual(expected, result);
-       
+        var triangle = new Triangle(arg1,arg2,arg3);
+
+        Assert.IsTrue(triangle.IsRightAngled());
+        
     }
+
 
 }
