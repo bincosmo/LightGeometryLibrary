@@ -20,24 +20,26 @@ class ShowGeometryLibWork
             if (figureType == 9)
             {
                 double sideValue = default;
-                Figure autofigure = new Figure();
+                Figure figure = new Figure();
                 while (sideValue >= 0){
-                Console.WriteLine($"Enter the size of the {autofigure.Side.Count + 1} Side:");
+                Console.WriteLine($"Enter the size of the {figure.Side.Count + 1} Side:");
                 Console.WriteLine($"Enter a negative number for finish input");
                 sideValue = Convert.ToDouble(Console.ReadLine());
                 if (sideValue >= 0)
-                    autofigure.Side.Add(sideValue);
+                    figure.Side.Add(sideValue);
                 }  
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine ($"Area: {autofigure.AutoDefinitionArea()}");               
-                Console.WriteLine ($"Figure type:{autofigure.figureType}");
+                Console.WriteLine ($"Area: {figure.AutoDefinitionOfArea()}");    
+                Console.WriteLine ($"Figure type:{figure.figureType}");    
+                if(figure.figureType == "Triangle")
+                            Console.WriteLine($"Rightangle triangle:{figure.RightTriangle}");                    
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Press any key to continue...");
                 Console.ReadLine();
-                }else if(figureType > 0 && figureType <= 3){
-                        Figure figure = new Figure(figureType);
+                }else if(figureType > 0 && figureType <= 3){   
+                        Figure figure = new Figure(figureType);                   
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"\nFigure area:{figure.areaResult}");
+                        Console.WriteLine($"Figure area:{figure.areaResult}");
                         if(figure.figureType == "Triangle")
                             Console.WriteLine($"Rightangle triangle:{figure.RightTriangle}");
                         Console.ForegroundColor = ConsoleColor.Green;

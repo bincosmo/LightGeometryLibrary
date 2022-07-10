@@ -2,15 +2,10 @@
 
 public class Figure
 {   
-    public string? figureType;
+    public string figureType = "not defined";
     public List<double>Side = new List<double>();
     public bool RightTriangle;
-    private double area;
-    public double areaResult
-    {
-        get { return area; }
-        set { area = value; }
-    }
+    public double areaResult { get; set; }
 
     public Figure()
     {
@@ -37,19 +32,19 @@ public class Figure
               break;
         }
     }
-    //autodefinition
-    public double AutoDefinitionArea(){
+    //autodefinition of figure
+    public double AutoDefinitionOfArea(){
         switch (Side.Count)
         {
             case 1:
                 figureType = "Circle";
-                Circle circle = new Circle();
-                areaResult = circle.Area(Side[0]);               
+                Circle circle = new Circle(Side[0]);
+                areaResult = circle.Area();               
                 break;
             case 2:
                 figureType = "Rectangle";
-                Rectangle rectangle = new Rectangle();
-                areaResult = rectangle.Area(Side[0], Side[1]);             
+                Rectangle rectangle = new Rectangle(Side[0], Side[1]);
+                areaResult = rectangle.Area();             
                 break;
             case 3:
                 figureType = "Triangle";
@@ -62,26 +57,33 @@ public class Figure
         }
        return areaResult;
     }
-    
-
 }
 
 //Circle
 public class Circle
 {        
+    public double Radius { get; set; }
     public Circle()
     {
+        AddCircle();
+    }
+    public Circle (double radius)
+    {
+        Radius = radius;
+    }
+    public void AddCircle()
+    {
+        Console.WriteLine("Enter radius:");
+        Radius = Convert.ToDouble(Console.ReadLine()); 
     }
 
     public double Area ()
-    {        
-        Console.WriteLine("Enter radius:");
-        double radius = Convert.ToDouble(Console.ReadLine());  
-            return Math.PI * Math.Pow(radius, 2);
+    {              
+            return Math.PI * Math.Pow(Radius, 2);
     }
     public double Area (double radius)
     {         
-            return Math.PI * Math.Pow(radius, 2);
+            return Math.PI * Math.Pow(Radius, 2);
     }
 
 }
@@ -89,20 +91,31 @@ public class Circle
 //Rectangle
 public class Rectangle
 {
+    public double Length { get; set; }
+    public double Width { get; set; }
     public Rectangle ()
     {       
+        AddRectangle();
+    }
+    public Rectangle (double length, double width)
+    {       
+        Length = length;
+        Width = width;
+    }
+    public void AddRectangle()
+    {
+        Console.WriteLine("Enter length:");
+        Length = Convert.ToDouble(Console.ReadLine()); 
+        Console.WriteLine("Enter width:");
+        Width = Convert.ToDouble(Console.ReadLine());
     }
     public double Area()
     {
-        Console.WriteLine("Enter length:");
-        double length = Convert.ToDouble(Console.ReadLine()); 
-        Console.WriteLine("Enter width:");
-        double width = Convert.ToDouble(Console.ReadLine());
-            return length * width;
+            return Length * Width;
     }
     public double Area (double length, double width)
     { 
-            return length * width;
+            return Length * Width;
     }
 }
 
@@ -124,21 +137,22 @@ public class Triangle
     }
   
     public void AddTriangle()
-    {
-        Console.WriteLine("Enter Side A:");
-        SideA = Convert.ToDouble(Console.ReadLine()); 
-        Console.WriteLine("Enter Side B:");
-        SideB = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Enter Side C:");
-        SideC = Convert.ToDouble(Console.ReadLine());
+    {   
+            Console.WriteLine("Enter Side A:");
+            SideA = Convert.ToDouble(Console.ReadLine()); 
+            Console.WriteLine("Enter Side B:");
+            SideB = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Enter Side C:");
+            SideC = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Incorrect input");
+            if (SideA + SideB <= SideC || SideA + SideC <= SideB)
+            {
+                Console.WriteLine("Incorrect input");
+                AddTriangle();
+            }        
     }
     public double Area(double sideA, double sideB, double sideC)
     { 
-        while(SideA + SideB <= SideC || SideA + SideC <= SideB)
-        {
-            Console.WriteLine("Incorrect input");
-            AddTriangle();
-        }           
         double s = (sideA + sideB + sideC)/2;
             return Math.Sqrt(s * (s - SideA)*(s - SideB)*(s - SideC));
     }
